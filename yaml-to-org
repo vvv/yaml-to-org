@@ -1,0 +1,34 @@
+#!/usr/bin/env awk -f
+
+### Converts input from yaml to org-mode format.
+
+BEGIN {
+    # A lone dash symbol is not particularly useful as a headline.
+    # When `add_comments = 1`, the script will try to add informative
+    # comments to headlines that would otherwise contain a single dash.
+    add_comments = 1
+}
+
+function prefix(depth) {
+    s = sprintf("%*s", depth, "")
+    gsub(/ /, "*", s)
+    return s " "
+}
+
+/^ *- / {
+    pos = index($0, "-")
+    depth = 1 + int((pos-1)/2);
+    if (add_comments)
+	comment = "  # " substr($0, pos + 2)
+    print prefix(depth) "-" comment
+    print prefix(depth + 1) substr($0, pos + 2)
+    next
+}
+
+{
+    pos = match($0, /[^ ]/)
+    if (pos) {
+	depth = 1 + int((pos-1)/2)
+	print prefix(depth) substr($0, pos)
+    }
+}
