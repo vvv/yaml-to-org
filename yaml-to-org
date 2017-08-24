@@ -1,6 +1,6 @@
 #!/usr/bin/env awk -f
 
-### Converts input from yaml to org-mode format.
+### Convert input files from yaml to org-mode format.
 
 BEGIN {
     # A lone dash symbol is not particularly useful as a headline.
