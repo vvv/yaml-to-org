@@ -32,6 +32,8 @@ function prev_item_flush(split_p) {
     }
 }
 
+/^ *#/ { next }  # skip comments
+
 /^ *- / {
     pos = index($0, "-")
     prev_item_flush(0)
